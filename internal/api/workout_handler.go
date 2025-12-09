@@ -24,6 +24,16 @@ func NewWorkoutHandler(workoutStore store.WorkoutStore, logger *log.Logger) *Wor
 	}
 }
 
+func (wh *WorkoutHandler) GetAllWorkouts(w http.ResponseWriter, r *http.Request) {
+	result, err := wh.workoutStore.GetWorkouts()
+	if err != nil {
+		wh.logger.Printf("failed to get workouts:%v", err)
+		utils.WriteJSON(w, http.StatusInternalServerError, utils.Envelope{"error": "failed to fetch workouts"})
+		return
+	}
+	utils.WriteJSON(w, http.StatusOK, utils.Envelope{"workouts": result})
+}
+
 func (wh *WorkoutHandler) Get(w http.ResponseWriter, r *http.Request) {
 	workoutID, err := utils.ReadIDParams(r)
 	if err != nil {
