@@ -5,13 +5,15 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func SetupRoute(app *app.Applicaiton) *chi.Mux {
+func SetupRoute(app *app.Application) *chi.Mux {
 	r := chi.NewRouter()
 	r.Get("/health", app.HealthCheck)
 
 	// workout
-	r.Get("/workout/{id}", app.WorkoutHnadler.Get)
-	r.Post("/workouts", app.WorkoutHnadler.Insert)
+	r.Get("/workouts/{id}", app.WorkoutHandler.HandleGetWorkoutById)
+	r.Post("/workouts", app.WorkoutHandler.Insert)
+	r.Put("/workouts/{id}", app.WorkoutHandler.HandleUpdateWorkout)
+	r.Delete("/workouts/{id}", app.WorkoutHandler.HandleDeleteWorkout)
 
 	return r
 }

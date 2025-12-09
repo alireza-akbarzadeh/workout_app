@@ -12,13 +12,13 @@ import (
 	"github.com/alireza-akbarzadeh/fem_project/migrations"
 )
 
-type Applicaiton struct {
+type Application struct {
 	Logger         *log.Logger
-	WorkoutHnadler *api.WorkoutHnadler
+	WorkoutHandler *api.WorkoutHandler
 	DB             *sql.DB
 }
 
-func NewApplication() (*Applicaiton, error) {
+func NewApplication() (*Application, error) {
 	pgDb, err := store.Open()
 	if err != nil {
 		return nil, err
@@ -28,18 +28,21 @@ func NewApplication() (*Applicaiton, error) {
 		return nil, err
 	}
 	// out stores will go here
+	workoutStore := store.NewPostgresWorkoutStore(pgDb)
+
 	// our handlers will go here
-	workoutHandler := api.NewWorkoutHandler()
+	workoutHandler := api.NewWorkoutHandler(workoutStore)
+
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
-	app := &Applicaiton{
+	app := &Application{
 		Logger:         logger,
-		WorkoutHnadler: workoutHandler,
+		WorkoutHandler: workoutHandler,
 		DB:             pgDb,
 	}
 
 	return app, nil
 }
 
-func (app *Applicaiton) HealthCheck(w http.ResponseWriter, r *http.Request) {
+func (app *Application) HealthCheck(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "status is available\n")
 }
