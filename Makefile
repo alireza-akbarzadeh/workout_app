@@ -7,8 +7,8 @@ build:
 	go build -o $(APP_NAME) ./...
 
 dev:
-    @PORT=$(port) go run main.go
-	
+	air
+
 test:
 	go test ./...
 
@@ -20,3 +20,6 @@ lint:
 
 clean:
 	rm -f $(APP_NAME)
+
+swag:
+	swag init
