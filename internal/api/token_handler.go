@@ -30,6 +30,21 @@ func NewTokenHandler(tokenStore store.TokenStore, userStore store.UserStore, log
 	}
 }
 
+// @Summary      Register a new user account
+// @Description  Creates a new user in the system after validating the input.
+// @Description  The user must provide a unique username, a valid email address, and a secure password.
+// @Description  Optionally, a bio can be included for the user's profile.
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+//
+// @Param user body createTokenRequest true "User Params"
+//
+// @Success      201 {object} utils.Envelope{tokens=tokens.Token} "Returns created user information"
+// @Failure      400 {object} utils.Envelope "Invalid input or bad request"
+// @Failure      500 {object} utils.Envelope "Server error while creating the user"
+//
+// @Router       /tokens [post]
 func (th *TokenHandler) CreateToken(w http.ResponseWriter, r *http.Request) {
 	var req createTokenRequest
 	err := json.NewDecoder(r.Body).Decode(&req)

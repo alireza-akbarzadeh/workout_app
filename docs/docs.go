@@ -24,6 +24,64 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/tokens": {
+            "post": {
+                "description": "Creates a new user in the system after validating the input.\nThe user must provide a unique username, a valid email address, and a secure password.\nOptionally, a bio can be included for the user's profile.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Register a new user account",
+                "parameters": [
+                    {
+                        "description": "User Params",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.createTokenRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns created user information",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.Envelope"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "tokens": {
+                                            "$ref": "#/definitions/tokens.Token"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input or bad request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Envelope"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error while creating the user",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Envelope"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "description": "Creates a new user in the system after validating the input.\nThe user must provide a unique username, a valid email address, and a secure password.\nOptionally, a bio can be included for the user's profile.",
@@ -84,6 +142,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.createTokenRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "api.registerUserRequest": {
             "type": "object",
             "properties": {
@@ -120,6 +189,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "tokens.Token": {
+            "type": "object",
+            "properties": {
+                "expiry": {
+                    "type": "string"
+                },
+                "token": {
                     "type": "string"
                 }
             }

@@ -14,21 +14,22 @@ func SetupRoute(app *app.Application) *chi.Mux {
 	//swagger
 	r.Get("/swagger/*", httpSwagger.WrapHandler)
 
-	// workout
-	r.Get("/workouts/{id}", app.WorkoutHandler.HandleGetWorkoutById)
-	r.Post("/workouts", app.WorkoutHandler.Insert)
-	r.Get("/workouts", app.WorkoutHandler.GetAllWorkouts)
-	r.Put("/workouts/{id}", app.WorkoutHandler.HandleUpdateWorkout)
-	r.Delete("/workouts/{id}", app.WorkoutHandler.HandleDeleteWorkout)
-	// users
-	r.Post("/users", app.UserHandler.HandleRegisterUser)
-	r.Get("/users", app.UserHandler.HandleGetUserByUsername)
-	r.Put("/users", app.UserHandler.HandleUpdateUser)
-	r.Get("/users/{id}", app.UserHandler.HandleGetUserByID)
-	r.Delete("/users/{id}", app.UserHandler.HandleDeleteUser)
-
-	// tokens
-	r.Post("/tokens", app.TokenHandler.CreateToken)
-
+	// API v1 routes
+	r.Route("/api/v1", func(r chi.Router) {
+		// workout
+		r.Get("/workouts/{id}", app.WorkoutHandler.HandleGetWorkoutById)
+		r.Post("/workouts", app.WorkoutHandler.Insert)
+		r.Get("/workouts", app.WorkoutHandler.GetAllWorkouts)
+		r.Put("/workouts/{id}", app.WorkoutHandler.HandleUpdateWorkout)
+		r.Delete("/workouts/{id}", app.WorkoutHandler.HandleDeleteWorkout)
+		// users
+		r.Post("/users", app.UserHandler.HandleRegisterUser)
+		r.Get("/users", app.UserHandler.HandleGetUserByUsername)
+		r.Put("/users", app.UserHandler.HandleUpdateUser)
+		r.Get("/users/{id}", app.UserHandler.HandleGetUserByID)
+		r.Delete("/users/{id}", app.UserHandler.HandleDeleteUser)
+		// tokens
+		r.Post("/tokens", app.TokenHandler.CreateToken)
+	})
 	return r
 }
