@@ -1,0 +1,90 @@
+basePath: /api/v1
+definitions:
+  api.registerUserRequest:
+    properties:
+      bio:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  store.User:
+    properties:
+      bio:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  utils.Envelope:
+    additionalProperties: true
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@femproject.com
+    name: Fem Project Support Team
+    url: https://femproject.com/support
+  description: |-
+    Fem Project is a social and personal empowerment platform built to support users in creating profiles, interacting with features, and managing their accounts seamlessly.
+    This backend API provides secure endpoints for user registration, authentication, account management, and future social features.
+    All responses are formatted using JSON and follow RESTful standards.
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  termsOfService: https://femproject.com/terms
+  title: Fem Project API Documentation
+  version: "1.0"
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: |-
+        Creates a new user in the system after validating the input.
+        The user must provide a unique username, a valid email address, and a secure password.
+        Optionally, a bio can be included for the user's profile.
+      parameters:
+      - description: User Params
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/api.registerUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns created user information
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.Envelope'
+            - properties:
+                user:
+                  $ref: '#/definitions/store.User'
+              type: object
+        "400":
+          description: Invalid input or bad request
+          schema:
+            $ref: '#/definitions/utils.Envelope'
+        "500":
+          description: Server error while creating the user
+          schema:
+            $ref: '#/definitions/utils.Envelope'
+      summary: Register a new user account
+      tags:
+      - Users
+schemes:
+- http
+- https
+swagger: "2.0"

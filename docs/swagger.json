@@ -1,0 +1,130 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Fem Project is a social and personal empowerment platform built to support users in creating profiles, interacting with features, and managing their accounts seamlessly.\nThis backend API provides secure endpoints for user registration, authentication, account management, and future social features.\nAll responses are formatted using JSON and follow RESTful standards.",
+        "title": "Fem Project API Documentation",
+        "termsOfService": "https://femproject.com/terms",
+        "contact": {
+            "name": "Fem Project Support Team",
+            "url": "https://femproject.com/support",
+            "email": "support@femproject.com"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/users": {
+            "post": {
+                "description": "Creates a new user in the system after validating the input.\nThe user must provide a unique username, a valid email address, and a secure password.\nOptionally, a bio can be included for the user's profile.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Register a new user account",
+                "parameters": [
+                    {
+                        "description": "User Params",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.registerUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns created user information",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.Envelope"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/definitions/store.User"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input or bad request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Envelope"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error while creating the user",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Envelope"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.registerUserRequest": {
+            "type": "object",
+            "properties": {
+                "bio": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "store.User": {
+            "type": "object",
+            "properties": {
+                "bio": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.Envelope": {
+            "type": "object",
+            "additionalProperties": true
+        }
+    }
+}

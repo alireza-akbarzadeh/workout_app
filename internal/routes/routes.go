@@ -1,13 +1,18 @@
 package routes
 
 import (
+	_ "github.com/alireza-akbarzadeh/fem_project/docs"
 	"github.com/alireza-akbarzadeh/fem_project/internal/app"
 	"github.com/go-chi/chi/v5"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func SetupRoute(app *app.Application) *chi.Mux {
 	r := chi.NewRouter()
 	r.Get("/health", app.HealthCheck)
+
+	//swagger
+	r.Get("/swagger/*", httpSwagger.WrapHandler)
 
 	// workout
 	r.Get("/workouts/{id}", app.WorkoutHandler.HandleGetWorkoutById)

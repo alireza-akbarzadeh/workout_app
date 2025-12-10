@@ -52,6 +52,21 @@ func (h *UserHandler) RegisterUser(req *registerUserRequest) error {
 	return nil
 }
 
+// @Summary      Register a new user account
+// @Description  Creates a new user in the system after validating the input.
+// @Description  The user must provide a unique username, a valid email address, and a secure password.
+// @Description  Optionally, a bio can be included for the user's profile.
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+//
+// @Param user body registerUserRequest true "User Params"
+//
+// @Success      201 {object} utils.Envelope{user=store.User} "Returns created user information"
+// @Failure      400 {object} utils.Envelope "Invalid input or bad request"
+// @Failure      500 {object} utils.Envelope "Server error while creating the user"
+//
+// @Router       /users [post]
 func (uh *UserHandler) HandleRegisterUser(w http.ResponseWriter, r *http.Request) {
 	var req registerUserRequest
 
