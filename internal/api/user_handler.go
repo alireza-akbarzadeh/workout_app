@@ -108,6 +108,7 @@ func (uh *UserHandler) HandleRegisterUser(w http.ResponseWriter, r *http.Request
 	utils.WriteJSON(w, http.StatusCreated, utils.Envelope{"user": createdUser})
 
 }
+
 func (uh *UserHandler) HandleGetUserByUsername(w http.ResponseWriter, r *http.Request) {
 	username := r.URL.Query().Get("username")
 	if username == "" {
