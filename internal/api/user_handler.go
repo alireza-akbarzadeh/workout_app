@@ -100,7 +100,7 @@ func (uh *UserHandler) HandleGetUserByUsername(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	user, err := uh.UserStore.GetUserByUsername(username)
+	user, err := uh.UserStore.GetUserByUserName(username)
 	if err != nil {
 		uh.logger.Printf("failed to get user by username: %v", err)
 		utils.WriteJSON(w, http.StatusInternalServerError, utils.Envelope{"error": "failed to fetch user"})
