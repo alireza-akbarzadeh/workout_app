@@ -7,9 +7,9 @@ import (
 type Workout struct {
 	ID              int            `json:"id"`
 	Title           string         `json:"title"`
-	Description     *string        `json:"description,omitempty"`
+	Description     string         `json:"description,omitempty"`
 	DurationMinutes int            `json:"duration_minutes"`
-	CaloriesBurned  *int           `json:"calories_burned,omitempty"`
+	CaloriesBurned  int            `json:"calories_burned,omitempty"`
 	Entries         []WorkoutEntry `json:"entries,omitempty"`
 }
 

@@ -27,13 +27,13 @@ func NewApplication() (*Application, error) {
 	if err != nil {
 		return nil, err
 	}
+	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 	// out stores will go here
 	workoutStore := store.NewPostgresWorkoutStore(pgDb)
 
 	// our handlers will go here
-	workoutHandler := api.NewWorkoutHandler(workoutStore)
+	workoutHandler := api.NewWorkoutHandler(workoutStore, logger)
 
-	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 	app := &Application{
 		Logger:         logger,
 		WorkoutHandler: workoutHandler,
