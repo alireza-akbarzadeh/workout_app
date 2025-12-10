@@ -34,3 +34,7 @@ func ReadIDParams(r *http.Request) (int64, error) {
 	}
 	return id, nil
 }
+
+func ParseInt64(s string) (int64, error) {
+	return strconv.ParseInt(s, 10, 64)
+}
